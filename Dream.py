@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Add this import
 from kindwise import PlantApi
 import tempfile
 
 app = Flask(__name__)
+CORS(app)  # Add this line to enable CORS
 api = PlantApi(api_key="Da7fQIPJWhFs0hCDxJ55sI7frSjBmi75jOmL4gy5SYF9fsv6mw")
 
 @app.route("/", methods=["GET"])
@@ -38,13 +40,19 @@ def detect_disease():
 
         suggestions = result.result.classification.suggestions
         if not suggestions:
-            return jsonify({"disease_name": "Unknown", "confidence": 0, "severity": "N/A", "description": "No match found", "treatments": []})
+            return jsonify({
+                "disease_name": "Unknown", 
+                "confidence": 0, 
+                "severity": "N/A", 
+                "description": "No match found", 
+                "treatments": []
+            })
 
         top = suggestions[0]
         response = {
             "disease_name": top.name,
             "confidence": round(top.probability * 100, 2),
-            "severity": "N/A",
+            "severity": "N/A",  # You might want to determine this based on the disease
             "description": top.details.description if top.details else "No description available",
             "treatments": ["This plant may need care steps depending on the disease"]
         }
