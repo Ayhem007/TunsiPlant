@@ -5,6 +5,14 @@ import tempfile
 app = Flask(__name__)
 api = PlantApi(api_key="Da7fQIPJWhFs0hCDxJ55sI7frSjBmi75jOmL4gy5SYF9fsv6mw")
 
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({
+        "message": "Plant Disease Detection API",
+        "status": "running",
+        "endpoint": "/detect-disease (POST)"
+    })
+
 @app.route("/detect-disease", methods=["POST"])
 def detect_disease():
     if "image" not in request.files:
