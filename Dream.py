@@ -5,7 +5,7 @@ import tempfile
 
 app = Flask(__name__)
 CORS(app)  # Add this line to enable CORS
-api = PlantApi(api_key="Da7fQIPJWhFs0hCDxJ55sI7frSjBmi75jOmL4gy5SYF9fsv6mw")
+api = PlantApi(api_key="")
 
 @app.route("/", methods=["GET"])
 def home():
@@ -64,3 +64,4 @@ def detect_disease():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
